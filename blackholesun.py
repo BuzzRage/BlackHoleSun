@@ -1,14 +1,16 @@
 #!/bin/python
 import os
+import sys
 import subprocess
 import requests
 import threading
 
-url     = 'http://speed.hetzner.de/10GB.bin'
-#url     = 'https://eff.org'
-pid     = os.getpid()
-stopped = False
-period  = 0.4
+url        = 'http://speed.hetzner.de/10GB.bin'
+#url        = 'https://eff.org'
+pid        = os.getpid()
+stopped    = False
+period     = 0.4
+print_info = True if len(sys.argv) > 1 and str(sys.argv[1]) == "info" else False
 
 #Perform 'ss -pti | grep -A 1 pid' request each period of time
 def infos():
@@ -23,7 +25,8 @@ print('Download test with PID: ', pid)
 
 r = requests.get(url, stream=True)
 
-infos()
+if print_info:
+    infos()
 
 for line in r.iter_lines():
     if r.status_code == 200:
