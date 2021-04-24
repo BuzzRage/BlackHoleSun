@@ -8,14 +8,16 @@ url     = 'http://speed.hetzner.de/10GB.bin'
 #url     = 'https://eff.org'
 pid     = os.getpid()
 stopped = False
-#Perform 'ss -pti | grep -A 1 pid' request
+period  = 0.4
+
+#Perform 'ss -pti | grep -A 1 pid' request each period of time
 def infos():
     subprocess.run(["clear"])
     ss = subprocess.Popen(["ss", "-pti"], stdout=subprocess.PIPE)
     cp = subprocess.run(["grep", "-A 1", str(pid)], stdin=ss.stdout, capture_output=True)
     print(cp.stdout)
     if not stopped:
-        threading.Timer(0.4, infos).start()
+        threading.Timer(period, infos).start()
 
 print('Download test with PID: ', pid)
 
