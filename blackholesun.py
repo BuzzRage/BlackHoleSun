@@ -19,6 +19,9 @@ def infos():
     cp   = subprocess.run(["grep", "-A 1", str(pid)], stdin=ss.stdout, capture_output=True)
     info = "  ".join(cp.stdout.decode('utf-8').split())
     print(info)
+    with open('data.raw', 'a') as raw_file:
+        raw_file.write(info+"\n")
+        
     if not stopped:
         threading.Timer(period, infos).start()
 
