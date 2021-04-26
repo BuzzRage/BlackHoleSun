@@ -15,7 +15,7 @@ print_info = True if len(sys.argv) > 1 and str(sys.argv[1]) == "info" else False
 #Perform 'ss -pti | grep -A 1 pid' request each period of time
 def infos():
     subprocess.run(["clear"])
-    ss   = subprocess.Popen(["ss", "-pti"], stdout=subprocess.PIPE)
+    ss   = subprocess.Popen("ss -pti state ESTABLISHED".split(), stdout=subprocess.PIPE)
     cp   = subprocess.run(["grep", "-A 1", str(pid)], stdin=ss.stdout, capture_output=True)
     info = "  ".join(cp.stdout.decode('utf-8').split())
     print(info)
